@@ -73,6 +73,17 @@ class AvatarMixer extends AssignmentClient {
         super(contextID, NodeType.AvatarMixer);
     }
 
+    /*
+    // AvatarMixer.cpp
+    auto nodeList = DependencyManager::get<NodeList>();
+    connect(nodeList.data(), &NodeList::packetVersionMismatch, this, &AvatarMixer::handlePacketVersionMismatch);
+    connect(nodeList.data(), &NodeList::nodeAdded, this, [this](const SharedNodePointer& node) {
+        if (node->getType() == NodeType::DownstreamAvatarMixer) {
+            getOrCreateClientData(node);
+        }
+    });
+    */
+
 }
 
 export default AvatarMixer;

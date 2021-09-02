@@ -98,6 +98,7 @@ class AudioMixer extends AssignmentClient {
     #negotiateAudioFormat(): void {
         // C++  void AudioClient::negotiateAudioFormat()
 
+        // $$$$$$$
         // WEBRTC TODO: Get list of codecs that Web supports.
         const codecs = [
             "opus",
@@ -111,6 +112,7 @@ class AudioMixer extends AssignmentClient {
 
         const audioMixer = this.#_nodeList.soloNodeOfType(NodeType.AudioMixer);
         if (audioMixer) {
+            console.log("$$$$$$$ send negogateFormatPacket");
             this.#_nodeList.sendPacket(negotiateFormatPacket, audioMixer);
         }
     }
@@ -118,6 +120,7 @@ class AudioMixer extends AssignmentClient {
     #audioMixerKilled(): void {
         // C++  void AudioClient::audioMixerKilled()
 
+        // $$$$$$$
         // WEBRTC TODO: Address further C++ code.
 
     }

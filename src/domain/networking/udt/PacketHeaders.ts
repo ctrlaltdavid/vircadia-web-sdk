@@ -166,7 +166,8 @@ const enum PacketTypeValue {
  *  @property {PacketType} AudioStreamStats - <code>18</code>
  *  @property {PacketType} DomainServerPathQuery - <code>19</code>
  *  @property {PacketType} DomainServerPathResponse - <code>20</code>
- *  @property {PacketType} DomainServerAddedNode - <code>21</code>
+ *  @property {PacketType} DomainServerAddedNode - <code>21</code> - The Domain Server sends this to assignment clients when a
+ *      new user connects to the domain.
  *  @property {PacketType} ICEServerPeerInformation - <code>22</code>
  *  @property {PacketType} ICEServerQuery - <code>23</code>
  *  @property {PacketType} OctreeStats - <code>24</code>
@@ -431,7 +432,14 @@ const PacketType = new class {
 
     readonly #_DomainListVersion = {
         // C++  DomainListVersion
-        HasConnectReason: 24
+        HasConnectReason: 24,
+        SocketTypes: 25
+    };
+
+    readonly #_DomainListRequestVersion = {
+        // C++  DomainListRequestVersion
+        PreSocketTypes: 22,
+        SocketTypes: 23
     };
 
     readonly #_DomainConnectionDeniedVersion = {
@@ -441,7 +449,8 @@ const PacketType = new class {
 
     readonly #_DomainConnectRequestVersion = {
         // C++  DomainConnectRequestVersion
-        HasCompressedSystemInfo: 26
+        HasCompressedSystemInfo: 26,
+        SocketTypes: 27
     };
 
 
@@ -465,13 +474,13 @@ const PacketType = new class {
         const DEFAULT_VERSION = 22;
         switch (packetType) {
             case this.DomainList:
-                return this.#_DomainListVersion.HasConnectReason;
+                return this.#_DomainListVersion.SocketTypes;
             case this.DomainListRequest:
-                return DEFAULT_VERSION;
+                return this.#_DomainListRequestVersion.SocketTypes;
             case this.DomainConnectionDenied:
                 return this.#_DomainConnectionDeniedVersion.IncludesExtraInfo;
             case this.DomainConnectRequest:
-                return this.#_DomainConnectRequestVersion.HasCompressedSystemInfo;
+                return this.#_DomainConnectRequestVersion.SocketTypes;
             case this.DomainDisconnectRequest:
                 return DEFAULT_VERSION;
             case this.DomainServerRemovedNode:
@@ -524,7 +533,7 @@ function protocolVersionsSignature(): Uint8Array {
 
     /* eslint-disable @typescript-eslint/no-magic-numbers */
     const PROTOCOL_SIGNATURE_BYTES
-        = [0xa9, 0x35, 0x77, 0xea, 0xce, 0xb8, 0xb1, 0xb7, 0xd5, 0xdf, 0x9d, 0x38, 0xc5, 0x85, 0x0b, 0x09];
+        = [0xd5, 0xfe, 0x2d, 0xd5, 0x0a, 0x52, 0xe5, 0xdb, 0x34, 0xb8, 0xa7, 0x12, 0x34, 0xbe, 0x64, 0x96];
     /* eslint-enable @typescript-eslint/no-magic-numbers */
     return Uint8Array.from(PROTOCOL_SIGNATURE_BYTES);
 }

@@ -19,6 +19,7 @@
     "main": "Vircadia.ts",
     "scripts": {
         "build": "webpack --mode production",
+        "build-dev": "webpack --mode development",
         "watch": "webpack --watch --mode development",
         "clean": "tsc --build --clean",
         "lint": "eslint .",

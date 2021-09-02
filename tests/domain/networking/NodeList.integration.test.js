@@ -77,6 +77,7 @@ describe("NodeList - integration tests", () => {
         }, 2000);
 
         // Receive a DomainServerList packet in response.
+        // $$$$$$$: Test that packet is actually received.
         const domainHandler = nodeList.getDomainHandler();
         let backupTimeout = null;
         domainHandler.connectedToDomain.connect(function () {
