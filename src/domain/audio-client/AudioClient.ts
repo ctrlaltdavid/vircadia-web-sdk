@@ -261,6 +261,9 @@ class AudioClient {
             ? `${deviceName}, ${channelCount} channels, ${sampleRate}Hz, ${sampleSize} bits, `
                 + `echo cancellation ${echoCancellation ? "on" : "off"}`
             : null);
+        console.log("$$$$$$$ inputDevice:", inputDevice);
+        console.log("$$$$$$$ inputDeviceAudioInfo:", inputDeviceAudioInfo);
+        console.log("$$$$$$$ inputDeviceAudioSettings:", inputDeviceAudioSettings);
 
         let supportedFormat = false;
 

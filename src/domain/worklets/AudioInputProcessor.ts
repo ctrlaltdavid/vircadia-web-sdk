@@ -47,6 +47,10 @@ class AudioInputProcessor extends AudioWorkletProcessor {
     _sourceSampleRate: number;
     _resampleRatio = 1;
 
+    _processCount = 0;
+    _convertCount = 0;
+    _resampleCount = 0;
+
     constructor(options?: AudioWorkletNodeOptions) {
         super(options);  // eslint-disable-line
 
@@ -56,6 +60,9 @@ class AudioInputProcessor extends AudioWorkletProcessor {
         if (this._sourceSampleRate !== AudioConstants.SAMPLE_RATE) {
             this._resampleRatio = AudioConstants.SAMPLE_RATE / this._sourceSampleRate;
         }
+
+        console.debug("$$$$$$$ AudioInputProcessor.constructor(): sample rate =", this._sourceSampleRate,
+            "; resample ratio =", this._resampleRatio);
 
         this._outputSize = this._channelCount === 1
             ? AudioConstants.NETWORK_FRAME_SAMPLES_PER_CHANNEL
@@ -95,6 +102,11 @@ class AudioInputProcessor extends AudioWorkletProcessor {
     process(inputList: Float32Array[][] /* , outputList: Float32Array[][], parameters: Record<string, Float32Array> */) {
         if (!inputList || !inputList[0] || !inputList[0][0] || this._channelCount === 2 && !inputList[0][1]) {
             return true;
+        }
+
+        if (this._processCount < 20) {
+            console.debug("$$$$$$$ AudioInputProcessor.process():", inputList[0]);
+            this._processCount += 1;
         }
 
         if (this._sourceSampleRate !== AudioConstants.SAMPLE_RATE) {
@@ -164,6 +176,10 @@ class AudioInputProcessor extends AudioWorkletProcessor {
             if (this._outputIndex === this._outputSampleSize) {
                 this.port.postMessage(this._output.buffer, [this._output.buffer]);
                 this._resetOutput();
+                if (this._resampleCount < 20) {
+                    console.debug("$$$$... resample() output", this._outputSampleSize);
+                    this._resampleCount += 1;
+                }
             }
 
             if (this._outputTotalIndex === AudioConstants.SAMPLE_RATE) {
@@ -196,6 +212,10 @@ class AudioInputProcessor extends AudioWorkletProcessor {
             if (this._outputIndex === this._outputSampleSize) {
                 this.port.postMessage(this._output.buffer, [this._output.buffer]);
                 this._resetOutput();
+                if (this._convertCount < 20) {
+                    console.debug("$$$$... convert() output", this._outputSampleSize);
+                    this._convertCount += 1;
+                }
             }
 
         }
