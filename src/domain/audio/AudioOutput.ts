@@ -207,6 +207,10 @@ class AudioOutput {
         this.#_oscillatorNode.connect(this.#_audioWorkletNode);
         this.#_audioWorkletNode.connect(this.#_streamDestination);
         this.#_oscillatorNode.start();
+
+        setInterval(() => {
+            console.debug("$$$$$$$ Audio output sample rate:", this.#_audioContext?.sampleRate);
+        }, 60000);
     }
 
 }

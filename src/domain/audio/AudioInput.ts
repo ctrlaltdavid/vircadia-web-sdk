@@ -308,6 +308,11 @@ class AudioInput {
         // Wire up the nodes.
         this.#_audioStreamSource.connect(this.#_audioInputProcessor);
 
+
+        setInterval(() => {
+            console.debug("$$$$$$$ Audio input sample rate:", this.#_audioContext?.sampleRate);
+        }, 60000);
+
         return true;
     }
 

@@ -14,7 +14,12 @@ import { Vircadia, DomainServer, Camera, AudioMixer, AvatarMixer, EntityServer, 
 
 (function () {
 
+    /*
     const DEFAULT_URL = "ws://127.0.0.1:40102";
+    */
+    const DEFAULT_URL = "wss://ua92-azure-1.vircadia.com:40102/0,1,0";
+    //const DEFAULT_URL = "wss://ua92-azure-2.vircadia.com:40102/0,1,0";
+
 
     // Shared context.
     let contextID = -1;

@@ -58,6 +58,8 @@ class AudioOutputProcessor extends AudioWorkletProcessor {
         const audioBlock = new Int16Array(message.data);
         this._audioBuffer.push(audioBlock);
 
+        // console.debug("$$$$$$$ audio buffer:", this._audioBuffer.length);
+
         // If we've surpassed the maximum buffer size, skip some older audio blocks.
         if (this._audioBuffer.length > this.MAX_AUDIO_BUFFER_LENGTH) {
             // The incoming audio stream should be <= the rate of consumption so only skip the minimum number of blocks.
